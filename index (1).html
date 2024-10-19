@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Stylish Font Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --secondary: #10b981;
+            --background: #f3f4f6;
+            --text: #1f2937;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .developer-card {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 2px 4px var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .developer-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            color: var(--card);
+        }
+
+        .developer-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .developer-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .developer-title {
+            font-size: 0.75rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        #textInput {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #textInput:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        #fontContainer {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .font-card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px var(--shadow);
+        }
+
+        .font-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .font-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .font-preview {
+            font-size: 1.1rem;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        #loadingMessage {
+            text-align: center;
+            font-style: italic;
+            color: var(--text);
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .developer-card {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Modern Font Generator</h1>
+            <div class="developer-card">
+                <div class="developer-avatar">B</div>
+                <div class="developer-info">
+                    <div class="developer-name">Basant</div>
+                    <div class="developer-title">Font Designer</div>
+                </div>
+            </div>
+        </header>
+        <input type="text" id="textInput" placeholder="Enter your text here" value="Discover your unique style!">
+        <div id="loadingMessage">Loading stylish fonts...</div>
+        <div id="fontContainer"></div>
+    </div>
+
+    <script>
+        const textInput = document.getElementById('textInput');
+        const fontContainer = document.getElementById('fontContainer');
+        const loadingMessage = document.getElementById('loadingMessage');
+
+        const fonts = [
+            'Abril Fatface', 'Amatic SC', 'Bangers', 'Bebas Neue', 'Caveat',
+            'Dancing Script', 'Fredoka One', 'Great Vibes', 'Indie Flower',
+            'Lobster', 'Merriweather', 'Monoton', 'Pacifico', 'Permanent Marker',
+            'Playfair Display', 'Righteous', 'Sacramento', 'Satisfy',
+            'Shadows Into Light', 'Cinzel', 'Cormorant Garamond', 'Josefin Sans',
+            'Lato', 'Montserrat', 'Nunito', 'Open Sans', 'Oswald', 'Raleway',
+            'Roboto', 'Source Sans Pro', 'Ubuntu', 'Yanone Kaffeesatz'
+        ];
+
+        function loadGoogleFonts() {
+            const link = document.createElement('link');
+            link.href = `https://fonts.googleapis.com/css2?family=${fonts.join('&family=').replace(/ /g, '+')}`;
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+
+            link.onload = () => {
+                loadingMessage.style.display = 'none';
+                renderFonts();
+            };
+        }
+
+        function renderFonts() {
+            fontContainer.innerHTML = '';
+            fonts.forEach(font => {
+                const fontCard = document.createElement('div');
+                fontCard.className = 'font-card';
+                fontCard.innerHTML = `
+                    <div class="font-name">${font}</div>
+                    <div class="font-preview" style="font-family: '${font}', cursive;">${textInput.value}</div>
+                `;
+                fontContainer.appendChild(fontCard);
+            });
+        }
+
+        textInput.addEventListener('input', renderFonts);
+
+        loadGoogleFonts();
+    </script>
+</body>
+</html>
