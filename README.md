@@ -11,7 +11,7 @@ Welcome to the **Modern Stylish Font Generator**! This web application allows us
 
 ## Demo
 
-You can try the app here: [Live Demo](#) ()
+You can try the app here: [Live Demo](#) (https://basantnath.github.io/stylish-fonts/)
 
 ## Installation
 
