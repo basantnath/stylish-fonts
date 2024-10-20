@@ -117,6 +117,7 @@
             padding: 1.25rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 2px 4px var(--shadow);
+            position: relative;
         }
 
         .font-card:hover {
@@ -142,6 +143,18 @@
             font-style: italic;
             color: var(--text);
             margin-bottom: 2rem;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         @media (max-width: 640px) {
@@ -209,9 +222,22 @@
                 fontCard.innerHTML = `
                     <div class="font-name">${font}</div>
                     <div class="font-preview" style="font-family: '${font}', cursive;">${textInput.value}</div>
+                    <button class="copy-btn" onclick="copyText('${font}', '${textInput.value}')">Copy</button>
                 `;
                 fontContainer.appendChild(fontCard);
             });
+        }
+
+        function copyText(font, text) {
+            const tempElement = document.createElement('textarea');
+            tempElement.style.position = 'fixed';
+            tempElement.style.opacity = '0';
+            tempElement.value = `<span style="font-family: '${font}', cursive;">${text}</span>`;
+            document.body.appendChild(tempElement);
+            tempElement.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempElement);
+            alert('Text copied with style!');
         }
 
         textInput.addEventListener('input', renderFonts);
